@@ -1,97 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/emailEditText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:minHeight="48dp" />
 
-        <TextView
-            android:id="@+id/authTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="User Authentication"
-            android:textSize="20sp" />
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
 
-        <EditText
-            android:id="@+id/emailEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
+    <Button
+        android:id="@+id/loginButton"
+        android:text="Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        <EditText
-            android:id="@+id/passwordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword" />
+    <Button
+        android:id="@+id/accessDialogButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dialog" />
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        />
 
-        <Button
-            android:id="@+id/signUpButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign up" />
+    <TextView
+        android:id="@+id/userTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No user logged in"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/customDialogTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24sp"
-            android:text="User Authentication (dialog)"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/accessDialogButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Access (dialog)" />
-
-        <TextView
-            android:id="@+id/firebaseUiTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24sp"
-            android:text="FirebaseUI"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/accessFirebaseUiButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Access (authUI)" />
-
-        <TextView
-            android:id="@+id/sessionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24sp"
-            android:text="Session"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/currentUserTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Not logged in" />
-
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout" />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
+</LinearLayout>
