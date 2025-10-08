@@ -42,6 +42,12 @@ dependencies {
     // Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
 
+    // Firebase Authentication
+    implementation("com.google.firebase:firebase-auth")
+
+    // Firestore Database
+    implementation("com.google.firebase:firebase-firestore")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -51,13 +57,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    // Firebase Authentication
-    implementation("com.google.firebase:firebase-auth")
-
-    // Firestore Database
-    implementation("com.google.firebase:firebase-firestore")
-
-    // FirebaseUI Authentication
-    implementation("com.firebaseui:firebase-ui-auth:9.0.0")
 }

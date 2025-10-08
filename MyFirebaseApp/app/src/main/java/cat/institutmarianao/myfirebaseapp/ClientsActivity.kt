@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,29 +27,33 @@ class ClientsActivity : AppCompatActivity() {
         val emailEditText = findViewById<EditText>(R.id.emailEditText)
         val nameEditText = findViewById<EditText>(R.id.nameEditText)
         val ageEditText = findViewById<EditText>(R.id.ageEditText)
-        val saveUserButton = findViewById<Button>(R.id.saveUserButton)
+        val saveClientButton = findViewById<Button>(R.id.saveClientButton)
 
-        saveUserButton.setOnClickListener {
-            saveUserOnClickListener(emailEditText, nameEditText, ageEditText)
+        saveClientButton.setOnClickListener {
+            saveClient(emailEditText, nameEditText, ageEditText)
         }
 
         // Set up RecyclerView
         recyclerView = findViewById(R.id.clientsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        clientAdapter = ClientAdapter(clientList) {client ->
-            // This code is executed when click on an element of the list
-            nameEditText.setText(client.name)
-            emailEditText.setText(client.email)
-            ageEditText.setText(client.age.toString())
-        }
+        clientAdapter = ClientAdapter(
+            clientList,
+            onDeleteClick = { client -> // Lambda para el clic en el botón de borrar
+                showDeleteDialog(client)
+            },
+            onItemClick = { client -> // Lambda para el clic en el ítem (como ya lo tenías)
+                nameEditText.setText(client.name)
+                emailEditText.setText(client.email)
+                ageEditText.setText(client.age.toString())
+            }
+        )
         recyclerView.adapter = clientAdapter
 
         // Load data from Firestore
         loadClientsFromFirestore()
     }
-
-    private fun saveUserOnClickListener(
+    private fun saveClient(
         emailEditText: EditText, nameEditText: EditText, ageEditText: EditText
     ) {
         val email = emailEditText.text.toString()
@@ -95,5 +100,37 @@ class ClientsActivity : AppCompatActivity() {
         }.addOnFailureListener { exception ->
             Log.w("Firestore", "Error getting documents.", exception)
         }
+    }
+
+
+    private fun showDeleteDialog(client: Client) {
+        AlertDialog.Builder(this) // Usamos 'this' como contexto de la Activity
+            .setTitle("Eliminar Cliente")
+            .setMessage("¿Estás seguro de que quieres eliminar a ${client.name}?")
+            // Botón de confirmación (Sí)
+            .setPositiveButton(android.R.string.yes) { dialog, which ->
+                // Lógica para eliminar el elemento de Firestore
+                deleteClientFromFirestore(client)
+            }
+            // Botón de cancelar (No), no hace falta acción, se cierra solo
+            .setNegativeButton(android.R.string.no, null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
+    private fun deleteClientFromFirestore(client: Client) {
+        // Usamos el email como ID del documento, igual que al guardar
+        db.collection("clients").document(client.email)
+            .delete()
+            .addOnSuccessListener {
+                Log.d("Firestore", "Documento eliminado con éxito")
+                Toast.makeText(this, "${client.name} eliminado", Toast.LENGTH_SHORT).show()
+                // Opcional pero recomendado: recargar la lista para reflejar el cambio al instante
+                loadClientsFromFirestore()
+            }
+            .addOnFailureListener { e ->
+                Log.w("Firestore", "Error al eliminar el documento", e)
+                Toast.makeText(this, "Error al eliminar", Toast.LENGTH_SHORT).show()
+            }
     }
 }

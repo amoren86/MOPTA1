@@ -3,11 +3,14 @@ package cat.institutmarianao.myfirebaseapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class ClientAdapter(
-    private val clients: List<Client>, private val onItemClick: (Client) -> Unit
+    private val clients: List<Client>,
+    private val onDeleteClick: (Client) -> Unit,
+    private val onItemClick: (Client) -> Unit
 ) : RecyclerView.Adapter<ClientAdapter.ClientViewHolder>() {
 
     // The ViewHolder, that uses the view layout and
@@ -15,6 +18,8 @@ class ClientAdapter(
         val nameText: TextView = itemView.findViewById(R.id.nameTextView)
         val emailText: TextView = itemView.findViewById(R.id.emailTextView)
         val ageText: TextView = itemView.findViewById(R.id.ageTextView)
+
+        val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
     }
 
     // Create new views (invoked by the layout manager)
@@ -31,6 +36,9 @@ class ClientAdapter(
         holder.nameText.text = client.name
         holder.emailText.text = client.email
         holder.ageText.text = client.age.toString()
+        holder.deleteButton.setOnClickListener {
+            onDeleteClick(client)
+        }
         holder.itemView.setOnClickListener {
             onItemClick(client)
         }
